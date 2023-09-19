@@ -23,7 +23,7 @@ export const IngredientForm = ({addIngredient}: IngredientFormProps) => {
                 <form className='upc-form' >
                     <label htmlFor="UPC">UPC #</label>
                     <input type="text" name="UPC"></input>
-                    <button type='submit' onClick={createIngredient}>Save Ingredient</button>
+                    <button type='submit'>Save Ingredient</button>
                 </form>
                 <form className='name-form' onSubmit={createIngredient}>
                     <label htmlFor="name">Name</label>

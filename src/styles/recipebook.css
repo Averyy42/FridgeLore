@@ -1,0 +1,14 @@
+.recipe-book-container-parent {
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.recipe-book-container-child {
+    width: 80%;
+    height: 800px;
+    border: 2px solid black;
+    border-radius: 10px;
+}

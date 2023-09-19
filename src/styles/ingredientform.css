@@ -1,0 +1,30 @@
+.form-container-parent {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.form-container-child {
+    width: 75%;
+    border: 2px solid black;
+    height: 600px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.upc-form {
+    width: 50%;
+    border-right: 1px black solid;
+    display: flex;
+    flex-direction: column;
+}
+
+.name-form {
+    width: 50%;
+    border-left: 1px black solid;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,6 +1,6 @@
 // import { GoogleLogin } from "react-google-login";
 // import { FormEvent, useState } from "react";
-import "./styles/loginpage.css";
+import "../styles/loginpage.css";
 import { initializeApp } from "firebase/app";
 import { config } from "./config";
 import { useNavigate } from "react-router-dom";

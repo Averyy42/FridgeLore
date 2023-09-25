@@ -1,8 +1,8 @@
 import { FormEvent, useState } from "react";
-import { Login } from "../models/Login";
-import "../styles/signupform.css"
-import AllergyDropdown from "./AllergyDropDown";
-import CuisineDropdown from "./CuisineDropDown";
+import { Login } from "../../models/Login";
+import "../../styles/signupform.css"
+import AllergyDropdown from "../AllergyDropDown";
+import CuisineDropdown from "../CuisineDropDown";
 
 function SignUpForm() {
     const [name, setName] = useState("");
@@ -18,6 +18,7 @@ function SignUpForm() {
         email,
         password: ""
     };
+    // const UserIngredients = {_id: }
     setEmail("");
     setPassword("");
 }

@@ -23,7 +23,7 @@ ingredientsRouter.get("/ingredients", async (req, res) => {
     }
 });
 
-ingredientsRouter.get('/ingredients/find:id', async (req, res) => {
+ingredientsRouter.get('/ingredients/find/:id', async (req, res) => {
     try {
         const client = await getClient();
         const _id = new ObjectId(req.params.id);

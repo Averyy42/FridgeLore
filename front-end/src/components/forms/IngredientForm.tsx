@@ -2,11 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Ingredient } from '../../models/Ingredient';
 import '../../styles/ingredientform.css'
 
-interface IngredientFormProps {
-    
-}
-
-export const IngredientForm = ({}: IngredientFormProps) => {
+export const IngredientForm = () => {
     const [name, setName] = useState('');
     const [upc, setUpc] = useState('');
 

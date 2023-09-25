@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Fridge } from './Fridge';
 import { RecipeBook } from './RecipeBook';
 import { IngredientForm } from './forms/IngredientForm';
 import '../styles/main.css'
 import { getUserIngredients } from '../services/ingredientService';
+import AuthContext from '../context/AuthContext';
 
 function Main() {
   const [ingredients, setIngredients] = useState<String[]>([]);
   const [isOpen, setOpen] = useState(false);
 
+  const user = useContext(AuthContext);
+  
   useEffect(() => {
-    const id = '650b8b0332a13ff9fc207361';
-    getUserIngredients(id).then((data) => {
+    if (user.user) {
+    getUserIngredients(user.user.uid).then((data) => {
       setIngredients(data.ingredients)
-      console.log(ingredients);
-    })
-  })
+    })};
+  });
 
   const toggleOpen = () => {
         setOpen(!isOpen);

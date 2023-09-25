@@ -1,5 +1,6 @@
 import axios from "axios";
 import UserIngredients from "../models/UserIngredients";
+import { Ingredient } from "../models/Ingredient";
 
 const ingredientsBaseUrl: string = process.env.REACT_APP_API_URL || "";
 
@@ -19,5 +20,6 @@ export const getUserIngredients = async (uid: string) => {
 }
 
 export const updateIngredients = async (uid: string, ingredients : UserIngredients) => {
-    const response = await axios.put<UserIngredients>(`${ingredientsBaseUrl}/${encodeURIComponent(uid)}`, ingredients)
+    const response = await axios.patch<UserIngredients>(`${ingredientsBaseUrl}/${encodeURIComponent(uid)}/add`, ingredients)
+    return response.data;
 }

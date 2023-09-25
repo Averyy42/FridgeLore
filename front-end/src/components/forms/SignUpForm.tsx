@@ -3,6 +3,7 @@ import { Login } from "../../models/Login";
 import "../../styles/signupform.css"
 import AllergyDropdown from "../AllergyDropDown";
 import CuisineDropdown from "../CuisineDropDown";
+import { addIngredients } from "../../services/ingredientService";
 
 function SignUpForm() {
     const [name, setName] = useState("");
@@ -18,7 +19,8 @@ function SignUpForm() {
         email,
         password: ""
     };
-    // const UserIngredients = {_id: }
+    // const UserIngredients = {_id: email, ingredients: []}
+    // addIngredients(UserIngredients)
     setEmail("");
     setPassword("");
 }

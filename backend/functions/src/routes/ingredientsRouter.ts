@@ -70,6 +70,19 @@ ingredientsRouter.put('/ingredients/:id', async (req, res) => {
     }
 });
 
+ingredientsRouter.patch('/ingredients/:id/add', async (req, res) => {
+    try {
+        const client = await getClient();
+        const _id = new ObjectId(req.params.id);
+        const newIngredients = req.body['ingredients'];
+
+        const result = await client.db().collection<UserIngredients>('ingredients').updateOne({_id: _id}, {$addToSet: {ingredients: {$each: [newIngredients]}}});
+        res.json(result);
+    } catch (err) {
+        errorResponse(err, res);
+    }
+})
+
 ingredientsRouter.delete('/ingredients/:id', async (req, res) => {
     try {
         const client = await getClient();

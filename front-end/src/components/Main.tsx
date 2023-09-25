@@ -6,21 +6,19 @@ import { Ingredient } from '../models/Ingredient';
 import '../styles/main.css'
 
 function Main() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<String[]>([]);
   const [isOpen, setOpen] = useState(false);
+
+  
 
   const toggleOpen = () => {
         setOpen(!isOpen);
   }
 
-  function addIngredient(ingredient: Ingredient) {
-    setIngredients([...ingredients, ingredient]);
-  } 
-
   return (
     <div className="Main">
       <Fridge ingredients={ingredients} isOpen={isOpen} toggleOpen={toggleOpen} />
-        {isOpen? (<IngredientForm addIngredient={addIngredient}/>):(<RecipeBook/>)}
+        {isOpen? (<IngredientForm />):(<RecipeBook/>)}
     </div>
   );
 }

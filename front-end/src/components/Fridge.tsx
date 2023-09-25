@@ -5,7 +5,7 @@ import { Ingredient } from "../models/Ingredient";
 interface FridgeProps {
     isOpen: boolean;
     toggleOpen(): void;
-    ingredients: Ingredient[];
+    ingredients: String[];
 }
 
 export const Fridge = ({isOpen, toggleOpen, ingredients}: FridgeProps) => {
@@ -16,7 +16,7 @@ export const Fridge = ({isOpen, toggleOpen, ingredients}: FridgeProps) => {
         <div id="fridge" onClick={toggleOpen}>
             <div id="ingredient-list-container">
                 <ul id="ingredient-list">
-                    {ingredients.map((ingredient: Ingredient) => (
+                    {ingredients.map((ingredient: String) => (
                         <li className="ingredient" key={ingredient.toString()}></li>
                     ))}
                 </ul>

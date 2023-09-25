@@ -3,17 +3,17 @@ import { Ingredient } from '../../models/Ingredient';
 import '../../styles/ingredientform.css'
 
 interface IngredientFormProps {
-    addIngredient(ingredient: Ingredient): void;
+    
 }
 
-export const IngredientForm = ({addIngredient}: IngredientFormProps) => {
+export const IngredientForm = ({}: IngredientFormProps) => {
     const [name, setName] = useState('');
     const [upc, setUpc] = useState('');
 
     function createIngredient(event: FormEvent) {
         event.preventDefault();
         const ingredient: Ingredient = {name};
-        addIngredient(ingredient);
+        
         setName('');
     }
 

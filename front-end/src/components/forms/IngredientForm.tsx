@@ -1,29 +1,31 @@
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { Ingredient } from '../../models/Ingredient';
 import '../../styles/ingredientform.css'
 import { addIngredients, updateIngredients } from '../../services/ingredientService';
 import UserIngredients from '../../models/UserIngredients';
-import { getAuth } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
 import AuthContext from '../../context/AuthContext';
 
 export const IngredientForm = () => {
     const [name, setName] = useState('');
     const [upc, setUpc] = useState('');
-    const [ingredients, setIngredients] = useState<UserIngredients>()
+    // const [ingredient, setIngredient] = useState<UserIngredients>()
     
     const user = useContext(AuthContext)
     
-    if (user.user) {
-    const newIngredient = {_id: user.user.uid, ingredients: [name]}
-    setIngredients(newIngredient)
-    }
+    // useEffect(() => {
+    //     if (user.user) {
+    //     const newIngredient = {_id: user.user.uid, ingredients: [name]}
+    //     setIngredient(newIngredient)
+    //     }
+    // }, [])
 
-    function createIngredient(event: FormEvent) {
+    async function createIngredient(event: FormEvent) {
         event.preventDefault();
-        setName('');
-        if (user.user && ingredients) {
-        updateIngredients(user.user.uid, ingredients)    
+        if (user.user) {
+            await updateIngredients(user.user.uid, [name]);
         }
+        setName('');
     }
 
     return (

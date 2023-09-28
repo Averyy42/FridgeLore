@@ -1,15 +1,16 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import "../styles/fridge.css"
 import { Ingredient } from "../models/Ingredient";
+import IngredientsContext from "../context/IngredientsContext";
 
 interface FridgeProps {
     isOpen: boolean;
     toggleOpen(): void;
-    ingredients: String[];
 }
 
-export const Fridge = ({isOpen, toggleOpen, ingredients}: FridgeProps) => {
-    const listIngredients = ingredients.map((ingredient) =>
+export const Fridge = ({isOpen, toggleOpen }: FridgeProps) => {
+    const ingredients = useContext(IngredientsContext);
+    const listIngredients = ingredients.ingredients.map((ingredient) =>
     <li>{ingredient}</li>
     );
     return (

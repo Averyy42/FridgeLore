@@ -7,6 +7,7 @@ const ingredientsRouter = express.Router();
 
 const errorResponse = (error: any, res: any) => {
     console.error("FAIL", error);
+    console.error(error.stack);
     res.status(500).json({ message: "Internal Server Error"})
 };
 
@@ -26,7 +27,8 @@ ingredientsRouter.get("/ingredients", async (req, res) => {
 ingredientsRouter.get('/ingredients/find/:id', async (req, res) => {
     try {
         const client = await getClient();
-        const _id = new ObjectId(req.params.id);
+        // Hacky
+        const _id = req.params.id as unknown as ObjectId;
 
         const result = await client.db().collection<UserIngredients>('ingredients').findOne({_id : _id});
 
@@ -45,8 +47,8 @@ ingredientsRouter.post('/ingredients', async (req, res) => {
         const client = await getClient();
         const ingredients = req.body as UserIngredients;
 
-        const result = await client.db().collection<UserIngredients>('ingredients').insertOne(ingredients);
-        res.status(201).json({_id: result.insertedId, ...ingredients});
+        await client.db().collection<UserIngredients>('ingredients').updateOne({_id : ingredients._id}, {$set: ingredients}, {upsert: true});
+        res.status(201).json({ingredients});
     } catch (err) {
         errorResponse(err, res);
     }
@@ -55,13 +57,13 @@ ingredientsRouter.post('/ingredients', async (req, res) => {
 ingredientsRouter.put('/ingredients/:id', async (req, res) => {
     try {
         const client = await getClient();
-        const _id = new ObjectId(req.params.id);
+        const userId = req.params.id;
         const ingredients = req.body as UserIngredients;
 
-        const result = await client.db().collection<UserIngredients>('ingredients').replaceOne({_id: _id}, ingredients);
+        const result = await client.db().collection<UserIngredients>('ingredients').replaceOne({userId: userId}, ingredients);
 
         if(result.matchedCount && result.modifiedCount) {
-            res.json({_id: _id, ...ingredients});
+            res.json({userId, ...ingredients});
         } else {
             res.status(404).send('User not found');
         }
@@ -72,11 +74,12 @@ ingredientsRouter.put('/ingredients/:id', async (req, res) => {
 
 ingredientsRouter.patch('/ingredients/:id/add', async (req, res) => {
     try {
+        console.log(req.body)
         const client = await getClient();
-        const _id = new ObjectId(req.params.id);
+        const _id = req.params.id as unknown as ObjectId;
         const newIngredients = req.body['ingredients'];
 
-        const result = await client.db().collection<UserIngredients>('ingredients').updateOne({_id: _id}, {$addToSet: {ingredients: {$each: [newIngredients]}}});
+        const result = await client.db().collection<UserIngredients>('ingredients').updateOne({_id: _id}, {$push: {ingredients: {$each: newIngredients}}});
         res.json(result);
     } catch (err) {
         errorResponse(err, res);
@@ -86,7 +89,7 @@ ingredientsRouter.patch('/ingredients/:id/add', async (req, res) => {
 ingredientsRouter.delete('/ingredients/:id', async (req, res) => {
     try {
         const client = await getClient();
-        const _id = new ObjectId(req.params.id);
+        const _id = req.params.id as unknown as ObjectId;
 
         const result = await client.db().collection<UserIngredients>('ingredients').deleteOne({_id: _id});
 

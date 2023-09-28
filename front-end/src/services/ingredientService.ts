@@ -19,7 +19,7 @@ export const getUserIngredients = async (uid: string) => {
     return response.data;
 }
 
-export const updateIngredients = async (uid: string, ingredients : UserIngredients) => {
-    const response = await axios.patch<UserIngredients>(`${ingredientsBaseUrl}/${encodeURIComponent(uid)}/add`, ingredients)
+export const updateIngredients = async (uid: string, ingredients: string[]) => {
+    const response = await axios.patch<UserIngredients>(`${ingredientsBaseUrl}/${encodeURIComponent(uid)}/add`, { ingredients: ingredients })
     return response.data;
 }

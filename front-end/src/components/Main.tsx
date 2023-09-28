@@ -5,19 +5,10 @@ import { IngredientForm } from './forms/IngredientForm';
 import '../styles/main.css'
 import { getUserIngredients } from '../services/ingredientService';
 import AuthContext from '../context/AuthContext';
+import IngredientsContext from '../context/IngredientsContext';
 
 function Main() {
-  const [ingredients, setIngredients] = useState<String[]>([]);
   const [isOpen, setOpen] = useState(false);
-
-  const user = useContext(AuthContext);
-  
-  useEffect(() => {
-    if (user.user) {
-    getUserIngredients(user.user.uid).then((data) => {
-      setIngredients(data.ingredients)
-    })};
-  });
 
   const toggleOpen = () => {
         setOpen(!isOpen);
@@ -25,7 +16,7 @@ function Main() {
 
   return (
     <div className="Main">
-      <Fridge ingredients={ingredients} isOpen={isOpen} toggleOpen={toggleOpen} />
+      <Fridge isOpen={isOpen} toggleOpen={toggleOpen} />
         {isOpen? (<IngredientForm />):(<RecipeBook/>)}
     </div>
   );

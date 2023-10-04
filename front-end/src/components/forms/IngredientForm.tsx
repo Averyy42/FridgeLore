@@ -5,26 +5,18 @@ import { addIngredients, updateIngredients } from '../../services/ingredientServ
 import UserIngredients from '../../models/UserIngredients';
 import { User, getAuth } from 'firebase/auth';
 import AuthContext from '../../context/AuthContext';
+import IngredientsContext from '../../context/IngredientsContext';
 
 export const IngredientForm = () => {
     const [name, setName] = useState('');
     const [upc, setUpc] = useState('');
-    // const [ingredient, setIngredient] = useState<UserIngredients>()
     
     const user = useContext(AuthContext)
-    
-    // useEffect(() => {
-    //     if (user.user) {
-    //     const newIngredient = {_id: user.user.uid, ingredients: [name]}
-    //     setIngredient(newIngredient)
-    //     }
-    // }, [])
+    const {updateIngredients} = useContext(IngredientsContext)
 
     async function createIngredient(event: FormEvent) {
         event.preventDefault();
-        if (user.user) {
-            await updateIngredients(user.user.uid, [name]);
-        }
+        await updateIngredients(name)
         setName('');
     }
 

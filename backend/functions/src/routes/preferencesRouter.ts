@@ -32,71 +32,53 @@ preferencesRouter.get("/preferences", async (req, res) => {
 preferencesRouter.post("/preferences", async (req, res) => {
   try {
     const client = await getClient();
-    const allergies = req.body as UserIngredients;
-    const cuisine = req.body as UserIngredients;
-
+    const { allergies } = req.body as UserIngredients;
+    const { cuisine } = req.body as UserIngredients;
+    const { _id } = req.body as UserIngredients;
     await client
       .db()
-      .collection<UserIngredients>("preferences")
-      .updateMany({ allergies }, { cuisine });
+      .collection<UserIngredients>("ingredients")
+      .updateMany(
+        { _id: _id },
+        { $set: { allergies, cuisine } },
+        { upsert: true }
+      );
     res.status(201).json({ allergies, cuisine });
   } catch (err) {
     errorResponse(err, res);
   }
 });
 
-preferencesRouter.put("/preferences/:id", async (req, res) => {
+preferencesRouter.patch("/preferences/:id/addCuisine", async (req, res) => {
   try {
+    console.log(req.body);
     const client = await getClient();
-    const userId = req.params.id;
-    const preferences = req.body as UserIngredients;
-
+    const _id = req.params.id as unknown as ObjectId;
+    const newCuisine = req.body["cuisine"];
     const result = await client
       .db()
-      .collection<UserIngredients>("preferences")
-      .replaceOne({ userId: userId }, preferences);
-
-    if (result.matchedCount && result.modifiedCount) {
-      res.json({ userId, ...preferences });
-    } else {
-      res.status(404).send("User preferences not found");
-    }
+      .collection<UserIngredients>("ingredients")
+      .updateOne({ _id: _id }, { $push: { cuisine: { $each: newCuisine } } });
+    res.json(result);
   } catch (err) {
     errorResponse(err, res);
   }
 });
 
-//cuisine & allergies - two/patches to handle seperate
-preferencesRouter.patch(
-  "/preferences/:id/update-allergies",
-  async (req, res) => {
-    try {
-      console.log(req.body);
-      const client = await getClient();
-      const _id = req.params.id as unknown as ObjectId;
-      const newAllergies = req.body.allergies;
-
-      const result = await client
-        .db()
-        .collection<UserIngredients>("preferences")
-        .updateOne({ _id: _id }, { $set: { allergies: newAllergies } });
-      res.json(result);
-    } catch (err) {
-      errorResponse(err, res);
-    }
-  }
-);
-
-preferencesRouter.patch("/preferences/:id/update-cuisine", async (req, res) => {
+preferencesRouter.patch("/preferences/:id/addAllergies", async (req, res) => {
   try {
+    console.log(req.body);
     const client = await getClient();
     const _id = req.params.id as unknown as ObjectId;
-    const newCuisine = req.body.cuisine;
+    const newAllergies = req.body["allergies"];
 
     const result = await client
       .db()
-      .collection<UserIngredients>("preferences")
-      .updateOne({ _id: _id }, { $set: { cuisine: newCuisine } });
+      .collection<UserIngredients>("ingredients")
+      .updateOne(
+        { _id: _id },
+        { $push: { allergies: { $each: newAllergies } } }
+      );
     res.json(result);
   } catch (err) {
     errorResponse(err, res);
@@ -110,17 +92,55 @@ preferencesRouter.delete("/preferences/:id", async (req, res) => {
 
     const result = await client
       .db()
-      .collection<UserIngredients>("preferences")
+      .collection<UserIngredients>("ingredients")
       .deleteOne({ _id: _id });
 
     if (result.deletedCount) {
       res.sendStatus(204);
     } else {
-      res.status(404).send("User preferences not found");
+      res.status(404).send("Preferences not found");
     }
   } catch (err) {
     errorResponse(err, res);
   }
 });
+
+// preferencesRouter.patch("/preferences/:id/update-cuisine", async (req, res) => {
+//   try {
+//     const client = await getClient();
+//     const _id = req.params.id as unknown as ObjectId;
+//     const newCuisine = req.body.cuisine;
+
+//     const result = await client
+//       .db()
+//       .collection<UserIngredients>("preferences")
+//       .updateOne({ _id: _id }, { $set: { cuisine: newCuisine } });
+//     res.json(result);
+//   } catch (err) {
+//     errorResponse(err, res);
+//   }
+// });
+
+// preferencesRouter.put("/preferences/:id", async (req, res) => {
+//   try {
+//     const client = await getClient();
+//     const userId = req.params.id;
+
+//     const cuisine  = req.body as UserIngredients;
+
+//     const result = await client
+//       .db()
+//       .collection<UserIngredients>("ingredients")
+//       .replaceOne({ userId: userId }, cuisine);
+
+//     if (result.matchedCount && result.modifiedCount) {
+//       res.json({ userId, ...cuisine });
+//     } else {
+//       res.status(404).send("User not found");
+//     }
+//   } catch (err) {
+//     errorResponse(err, res);
+//   }
+// });
 
 export default preferencesRouter;

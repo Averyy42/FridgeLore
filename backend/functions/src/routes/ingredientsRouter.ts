@@ -47,7 +47,10 @@ ingredientsRouter.post('/ingredients', async (req, res) => {
         const client = await getClient();
         const ingredients = req.body as UserIngredients;
 
-        await client.db().collection<UserIngredients>('ingredients').updateOne({_id : ingredients._id}, {$set: ingredients}, {upsert: true});
+        await client
+        .db()
+        .collection<UserIngredients>('ingredients')
+        .updateOne({_id : ingredients._id}, {$set: ingredients}, {upsert: true});
         res.status(201).json({ingredients});
     } catch (err) {
         errorResponse(err, res);
@@ -72,14 +75,17 @@ ingredientsRouter.put('/ingredients/:id', async (req, res) => {
     }
 });
 
-ingredientsRouter.patch('/ingredients/:id/add', async (req, res) => {
+ingredientsRouter.patch('/ingredients/:id/addIngredients', async (req, res) => {
     try {
         console.log(req.body)
         const client = await getClient();
         const _id = req.params.id as unknown as ObjectId;
         const newIngredients = req.body['ingredients'];
 
-        const result = await client.db().collection<UserIngredients>('ingredients').updateOne({_id: _id}, {$push: {ingredients: {$each: newIngredients}}});
+        const result = await client
+        .db()
+        .collection<UserIngredients>('ingredients')
+        .updateOne({_id: _id}, {$push: {ingredients: {$each: newIngredients}}});
         res.json(result);
     } catch (err) {
         errorResponse(err, res);

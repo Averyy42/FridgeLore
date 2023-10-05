@@ -15,13 +15,11 @@ function AuthContextProvider({children}: {children: ReactNode}) {
    });
  }, []);
 
-//  useEffect(() => {
+ useEffect(() => {
     if (user) {
     const UserIngredients = UserIngredientsObj(user.uid);
-    addIngredients(UserIngredients);
-    }
-// }});
-
+    addIngredients(UserIngredients); 
+ }});
 
  return (
    <AuthContext.Provider value={{ user }}>

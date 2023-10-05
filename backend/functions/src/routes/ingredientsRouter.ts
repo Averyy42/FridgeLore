@@ -90,7 +90,7 @@ ingredientsRouter.patch('/ingredients/:id/addIngredients', async (req, res) => {
     } catch (err) {
         errorResponse(err, res);
     }
-})
+});
 
 ingredientsRouter.delete('/ingredients/:id', async (req, res) => {
     try {

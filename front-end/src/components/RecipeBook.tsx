@@ -10,7 +10,7 @@ export const RecipeBook = () => {
     return (
         <div className='recipe-book-container-parent'>
             <div className='recipe-book-container-child'>
-                <ul>
+                <ul className='recipe-list'>
                     {response.recipes && response.recipes.map((recipe: Recipe) => (
                         <RecipeCard key={recipe.id.toString()} recipe={recipe} />
                     ))}

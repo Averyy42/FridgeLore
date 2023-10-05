@@ -6,7 +6,8 @@ const ingredientsBaseUrl: string = process.env.REACT_APP_API_URL || "";
 export const getRecipesFromIngList = async (ingredients: string[]) => {
     const response = await axios.get<RecipeResponse>(`${ingredientsBaseUrl}/recipes/findByIngredients`, {
         params: {
-            ingredients: ingredients
+            // ingredients: encodeURIComponent(ingredients.reduce((f,s) => `${f},${s}`))
+            ingredients
         }
     });
     return response.data;

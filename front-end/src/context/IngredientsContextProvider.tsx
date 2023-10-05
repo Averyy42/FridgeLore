@@ -16,7 +16,7 @@ function IngredientsContextProvider ({children}: {children: ReactNode}) {
               getUserIngredients(user.user.uid).then((data) => {
                 if (data.ingredients) {
                   setIngredients(data.ingredients)
-                  console.log('hi')
+                  console.log(data.ingredients)
                   getRecipesFromIngList(data.ingredients).then((data) => {
                     setRecipes(data.results)
                   })

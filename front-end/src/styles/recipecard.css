@@ -1,0 +1,8 @@
+.recipe-card {
+    padding: 20px;
+}
+
+.recipe-title {
+    text-wrap: wrap;
+    width: 20rem;
+}

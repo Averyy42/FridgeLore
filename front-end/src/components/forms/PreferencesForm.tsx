@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import AllergyDropdown from "../AllergyDropDown";
 import CuisineDropdown from "../CuisineDropDown";
 import { addIngredients } from "../../services/ingredientService";
-import "../../styles/settingform.css";
+import "../../styles/preferencesform.css";
 
 function PreferencesForm() {
   const [allergies, setAllergies] = useState("");

@@ -42,10 +42,18 @@ const AllergyDropdown: React.FC<AllergyDropdownProps> = ({ onChange }) => {
           <option value="" disabled>
             Select an allergy
           </option>
+          <option value="gluten">Gluten</option>
+          <option value="grain">Grain</option>
+          <option value="dairy">Dairy</option>
+          <option value="wheat">Wheat</option>
+          <option value="egg">Egg</option>
           <option value="peanuts">Peanuts</option>
           <option value="shellfish">Shellfish</option>
+          <option value="seafood">Seafood</option>
           <option value="soy">Soy</option>
           <option value="tree nut">Tree Nut</option>
+          <option value="sulfate">Sulfate</option>
+          <option value="sesame">Sesame</option>
         </select>
       </div>
       <ul>
@@ -57,12 +65,12 @@ const AllergyDropdown: React.FC<AllergyDropdownProps> = ({ onChange }) => {
         ))}
       </ul>
       <div>
-        <input
+        {/* <input
           type="text"
           placeholder="Add a new allergy"
           value={newAllergy}
           onChange={handleNewAllergyInputChange}
-        />
+        /> */}
         <button onClick={handleAddNewAllergy}>Add</button>
       </div>
     </div>
